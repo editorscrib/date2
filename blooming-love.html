@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blooming Love - For My Special Someone</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a2980, #26d0ce, #ff6b9d);
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            position: relative;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            padding: 20px;
+            text-align: center;
+            z-index: 10;
+            width: 100%;
+        }
+        
+        header {
+            margin-bottom: 40px;
+            animation: fadeIn 2s ease-out;
+            position: relative;
+        }
+        
+        .profile-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .profile-container {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            margin-bottom: 25px;
+        }
+        
+        .profile-frame {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 6px solid transparent;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 0 30px rgba(255, 105, 180, 0.7);
+            animation: pulse 3s infinite;
+        }
+        
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .profile-image:hover img {
+            transform: scale(1.05);
+        }
+        
+        .profile-decoration {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            animation: rotate 25s linear infinite;
+        }
+        
+        .decoration-item {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: #ffd700;
+            border-radius: 50%;
+        }
+        
+        .decoration-item:nth-child(1) { top: 0; left: 50%; transform: translateX(-50%); }
+        .decoration-item:nth-child(2) { top: 50%; right: 0; transform: translateY(-50%); }
+        .decoration-item:nth-child(3) { bottom: 0; left: 50%; transform: translateX(-50%); }
+        .decoration-item:nth-child(4) { top: 50%; left: 0; transform: translateY(-50%); }
+        .decoration-item:nth-child(5) { top: 15%; right: 15%; }
+        .decoration-item:nth-child(6) { bottom: 15%; left: 15%; }
+        .decoration-item:nth-child(7) { bottom: 15%; right: 15%; }
+        .decoration-item:nth-child(8) { top: 15%; left: 15%; }
+        
+        .heart-icon {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            width: 60px;
+            height: 60px;
+            background: #ff1a5c;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: pulseHeart 2s infinite;
+            z-index: 5;
+            box-shadow: 0 0 20px rgba(255, 26, 92, 0.6);
+        }
+        
+        .heart-icon::before {
+            content: "❤";
+            font-size: 30px;
+            color: white;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(to right, #ffd700, #ff69b4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .subtitle {
+            font-size: 1.4rem;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .garden {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+            perspective: 1000px;
+        }
+        
+        .flower {
+            width: 150px;
+            height: 220px;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .flower:hover {
+            transform: translateY(-10px);
+        }
+        
+        .stem {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 150px;
+            background: linear-gradient(to right, #2a8f2a, #4caf50);
+            border-radius: 5px;
+            z-index: 1;
+        }
+        
+        .bud {
+            position: absolute;
+            bottom: 140px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 50px;
+            background: linear-gradient(to bottom, #ff6b9d, #ff1a5c);
+            border-radius: 50%;
+            z-index: 3;
+            transition: all 0.8s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .bud::before {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+        }
+        
+        .petals {
+            position: absolute;
+            bottom: 145px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 80px;
+            z-index: 2;
+            opacity: 0;
+            transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .petal {
+            position: absolute;
+            width: 35px;
+            height: 55px;
+            background: linear-gradient(to bottom, #ffb6c1, #ff69b4);
+            border-radius: 50%;
+            transform-origin: bottom center;
+            opacity: 0.9;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .flower.bloomed .bud {
+            transform: translateX(-50%) scale(0.7);
+            background: #ffd700;
+            box-shadow: 0 0 20px #ffd700;
+        }
+        
+        .flower.bloomed .petals {
+            opacity: 1;
+            transform: translateX(-50%) scale(1.1);
+        }
+        
+        .reason {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            padding: 15px;
+            border-radius: 15px;
+            width: 180px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transition: all 0.8s ease 0.5s;
+            z-index: 10;
+            font-weight: 500;
+        }
+        
+        .flower.bloomed .reason {
+            opacity: 1;
+            top: -100px;
+        }
+        
+        .message {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 25px;
+            max-width: 600px;
+            margin: 50px auto 0;
+            color: #333;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .message h2 {
+            color: #ff1a5c;
+            margin-bottom: 15px;
+        }
+        
+        .message p {
+            line-height: 1.7;
+            font-size: 1.1rem;
+        }
+        
+        .signature {
+            text-align: right;
+            margin-top: 20px;
+            font-style: italic;
+            font-weight: 600;
+            color: #1a2980;
+        }
+        
+        /* Flower positioning */
+        .flower:nth-child(1) { transform: rotate(-5deg); }
+        .flower:nth-child(2) { transform: rotate(3deg); }
+        .flower:nth-child(3) { transform: rotate(-2deg); }
+        .flower:nth-child(4) { transform: rotate(5deg); }
+        .flower:nth-child(5) { transform: rotate(-3deg); }
+        .flower:nth-child(6) { transform: rotate(2deg); }
+        .flower:nth-child(7) { transform: rotate(-4deg); }
+        
+        /* Petal positioning */
+        .petal:nth-child(1) { transform: rotate(0deg) translateY(-20px); }
+        .petal:nth-child(2) { transform: rotate(51.4deg) translateY(-20px); }
+        .petal:nth-child(3) { transform: rotate(102.8deg) translateY(-20px); }
+        .petal:nth-child(4) { transform: rotate(154.2deg) translateY(-20px); }
+        .petal:nth-child(5) { transform: rotate(205.6deg) translateY(-20px); }
+        .petal:nth-child(6) { transform: rotate(257deg) translateY(-20px); }
+        .petal:nth-child(7) { transform: rotate(308.4deg) translateY(-20px); }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 10px rgba(255, 105, 180, 0.6); }
+            50% { box-shadow: 0 0 30px rgba(255, 105, 180, 0.8), 0 0 50px rgba(255, 105, 180, 0.5); }
+            100% { box-shadow: 0 0 10px rgba(255, 105, 180, 0.6); }
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes pulseHeart {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Decorative elements */
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 0;
+        }
+        
+        .bubble:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            top: 10%;
+            left: 10%;
+            animation: float 12s ease-in-out infinite;
+        }
+        
+        .bubble:nth-child(2) {
+            width: 70px;
+            height: 70px;
+            bottom: 20%;
+            right: 15%;
+            animation: float 10s ease-in-out infinite 1s;
+        }
+        
+        .bubble:nth-child(3) {
+            width: 50px;
+            height: 50px;
+            top: 40%;
+            left: 5%;
+            animation: float 8s ease-in-out infinite 0.5s;
+        }
+        
+        .bubble:nth-child(4) {
+            width: 120px;
+            height: 120px;
+            bottom: 10%;
+            left: 20%;
+            animation: float 15s ease-in-out infinite 2s;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 900px) {
+            .garden {
+                gap: 30px;
+            }
+            
+            .flower {
+                width: 120px;
+                height: 180px;
+            }
+            
+            h1 {
+                font-size: 3rem;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .garden {
+                gap: 20px;
+            }
+            
+            .flower {
+                width: 100px;
+                height: 160px;
+            }
+            
+            .reason {
+                width: 150px;
+                font-size: 0.8rem;
+            }
+            
+            .profile-container {
+                width: 180px;
+                height: 180px;
+            }
+            
+            .heart-icon {
+                width: 50px;
+                height: 50px;
+                top: -10px;
+                right: -10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Decorative bubbles -->
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    
+    <div class="container">
+        <header>
+            <div class="profile-section">
+                <div class="profile-container">
+                    <div class="profile-frame">
+                        <div class="profile-image">
+                            <!-- Replace this image source with your girlfriend's photo -->
+                            <img src="/Users/kaustubhbhoir/Documents/photo/girlfriend.png" alt="My Beautiful Girlfriend">
+                        </div>
+                    </div>
+                    
+                    <div class="profile-decoration">
+                        <div class="decoration-item"></div>
+                        <div class="decoration-item"></div>
+                        <div class="decoration-item"></div>
+                        <div class="decoration-item"></div>
+                        <div class="decoration-item"></div>
+                        <div class="decoration-item"></div>
+                        <div class="decoration-item"></div>
+                        <div class="decoration-item"></div>
+                    </div>
+                    
+                    <div class="heart-icon"></div>
+                </div>
+                
+                <h1>For My Chiku</h1>
+                <p class="subtitle">For the most amazing person in my life. Click each flower to discover why you mean the world to me...Seven flowers for our beautiful 7 months of relationship</p>
+            </div>
+        </header>
+        
+        <div class="garden">
+            <!-- Flower 1 -->
+            <div class="flower" onclick="bloomFlower(this)">
+                <div class="stem"></div>
+                <div class="bud"></div>
+                <div class="petals">
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                </div>
+                <div class="reason">Your smile brightens even my darkest days</div>
+            </div>
+            
+            <!-- Flower 2 -->
+            <div class="flower" onclick="bloomFlower(this)">
+                <div class="stem"></div>
+                <div class="bud"></div>
+                <div class="petals">
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                </div>
+                <div class="reason">Your kindness touches everyone around you</div>
+            </div>
+            
+            <!-- Flower 3 -->
+            <div class="flower" onclick="bloomFlower(this)">
+                <div class="stem"></div>
+                <div class="bud"></div>
+                <div class="petals">
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                </div>
+                <div class="reason">You make me laugh like no one else can</div>
+            </div>
+            
+            <!-- Flower 4 -->
+            <div class="flower" onclick="bloomFlower(this)">
+                <div class="stem"></div>
+                <div class="bud"></div>
+                <div class="petals">
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                </div>
+                <div class="reason">Your intelligence constantly impresses me</div>
+            </div>
+            
+            <!-- Flower 5 -->
+            <div class="flower" onclick="bloomFlower(this)">
+                <div class="stem"></div>
+                <div class="bud"></div>
+                <div class="petals">
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                </div>
+                <div class="reason">I feel completely myself when I'm with you</div>
+            </div>
+            
+            <!-- Flower 6 -->
+            <div class="flower" onclick="bloomFlower(this)">
+                <div class="stem"></div>
+                <div class="bud"></div>
+                <div class="petals">
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                </div>
+                <div class="reason">Your support gives me strength every day</div>
+            </div>
+            
+            <!-- Flower 7 -->
+            <div class="flower" onclick="bloomFlower(this)">
+                <div class="stem"></div>
+                <div class="bud"></div>
+                <div class="petals">
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                </div>
+                <div class="reason">You make every moment magical and special</div>
+            </div>
+        </div>
+        
+        <div class="message">
+            <h2>Dear chiku</h2>
+            <p>Each of these flowers represents a reason why I cherish you so deeply. But know that my love for you goes beyond these seven reasons - it's in every moment we share, every laugh, every conversation, and every quiet moment together. You're not just my girlfriend, you're my best friend, my inspiration, and my forever love.</p>
+            <p class="signature">With all my love,<br>Kas</p>
+        </div>
+    </div>
+
+    <script>
+        function bloomFlower(flower) {
+            // Toggle bloom effect
+            flower.classList.toggle('bloomed');
+            
+            // Close other flowers when opening a new one
+            if (flower.classList.contains('bloomed')) {
+                document.querySelectorAll('.flower').forEach(otherFlower => {
+                    if (otherFlower !== flower && otherFlower.classList.contains('bloomed')) {
+                        otherFlower.classList.remove('bloomed');
+                    }
+                });
+            }
+            
+            // Add a gentle petal animation
+            const petals = flower.querySelectorAll('.petal');
+            petals.forEach((petal, index) => {
+                petal.style.transition = `transform 1s ease ${index * 0.1}s`;
+            });
+        }
+        
+        // Auto bloom first flower after 2 seconds
+        setTimeout(() => {
+            document.querySelectorAll('.flower')[0].classList.add('bloomed');
+        }, 2000);
+        
+        // Auto cycle through flowers every 5 seconds
+        let currentFlower = 0;
+        setInterval(() => {
+            const flowers = document.querySelectorAll('.flower');
+            flowers[currentFlower].classList.remove('bloomed');
+            
+            currentFlower = (currentFlower + 1) % flowers.length;
+            flowers[currentFlower].classList.add('bloomed');
+        }, 5000);
+        
+        // Add sparkle effect to profile image on hover
+        const profileImage = document.querySelector('.profile-image');
+        profileImage.addEventListener('mouseenter', () => {
+            const sparkles = document.createElement('div');
+            sparkles.className = 'sparkles';
+            sparkles.innerHTML = `
+                <div class="sparkle" style="top: 20%; left: 30%"></div>
+                <div class="sparkle" style="top: 60%; left: 70%"></div>
+                <div class="sparkle" style="top: 80%; left: 20%"></div>
+                <div class="sparkle" style="top: 40%; left: 50%"></div>
+            `;
+            profileImage.appendChild(sparkles);
+            
+            setTimeout(() => {
+                profileImage.removeChild(sparkles);
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
